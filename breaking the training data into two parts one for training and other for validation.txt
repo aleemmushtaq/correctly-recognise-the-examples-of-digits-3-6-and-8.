@@ -1,0 +1,85 @@
+[m,n] = shufflerows( train, label);
+for i=1:200 if (i<=100)
+train2 (i,:)=m(i,:);
+else
+sample2(i-100,:)=m(i,:);
+end end
+for i=1:200 if(i<=100) label2(i,:)=n(i); else
+labelnew2(i-100,:)=n(i);
+end end
+
+
+for k=1:20
+Z(:,k)=knnclassify(sample2, train2, label2, k);
+end
+% Training accuracy accuu=0;
+for k=1:20 for i=1:100
+if (Z(i,k)==labelnew2(i))
+accuu = accuu +1;
+end end
+j(k)= accuu /100;
+accuu =0;
+end
+
+
+k=1:20;
+plot(k,j)
+xlabel('Values of K 1-20');
+ylabel('Accuracy');
+title('Accuracy Plot in term of K vary from 1 to 20');
+
+
+outputQ3=j; % j used in task 3 outputQ4=j; % j used in task 4 for i=1:20
+avrge(i,:)=(outputQ3(i)+outputQ4(i))/2;
+end
+
+
+variable3=outputQ3-avrge'; variable4=outputQ4-avrge'; variable=(variable3.^2+variable4.^2)/2; standarddeviation=sqrt(variable); plot(k,variable,'--',k, standarddeviation) xlabel('Values of K from 1 to 20'); ylabel('Error found');
+title('Error in term of Average and Standard Deviation');
+
+a=datasample(1:500,100,'Replace',false);
+
+for i=1:300 
+
+if (i<=50)
+sample(i,:)=reshape(getonedigit( 3, a(i), maindata),1,256);
+
+elseif(i<=100)
+ train(i-50,:)=reshape(getonedigit(3, a(i), maindata),1,256);
+
+elseif(i<=150) 
+sample(i-50,:)=reshape(getonedigit( 6, a(i-100), maindata),1,256);
+
+elseif(i<=200) 
+train(i-100,:)=reshape(getonedigit(6, a(i-150), maindata),1,256);
+
+elseif (i<=250) 
+sample(i-100,:)=reshape(getonedigit( 8, a(i-200),maindata),1,256);
+
+else 
+train(i-150,:)=reshape(getonedigit(8, a(i-250), maindata), 1,256);
+end end
+
+
+for i=1:150 if(i<=50) group(i,:)=3; elseif (i<=100) group(i,:)=6; else group(i,:)=8; end
+end
+
+
+for i=1:20
+Y(:,i)=knnclassify(sample, train, group, i);
+end
+
+
+accuu=0; for j=1:20 for i=1:150
+if (Y(i,j)==group(i))
+accuu = accuu +1;
+end end
+k(j)= accuu; accuu =0; end
+
+
+accuracy=k/150;
+m=1:20;
+>> plot(m,accuracy,'--')
+>> xlabel('Values of K from 1 - 20');
+>> ylabel('Accuracy');
+>> title('Accuracy Pot');

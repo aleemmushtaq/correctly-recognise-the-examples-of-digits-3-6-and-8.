@@ -1,0 +1,49 @@
+%For Random data
+a=datasample(1:500,100,'Replace',false);
+               
+for i=1:200 
+
+if(i<=100)
+
+          train(i,:)=reshape(getonedigit( 3, a(i), maindata),1,256);
+else
+
+          train(i,:)=reshape(getonedigit( 8, a(i-100), maindata),1,256);
+
+end 
+end
+
+for i=1:200 
+
+if(i<=100) 
+label(i,:)=3; 
+
+else 
+label(i,:)=8; 
+
+end
+end
+end
+ 
+Y(:,k)=knnclassify(sample, train, label, k);    %    implementing the KNN
+rule base
+ 
+
+accu=0;
+
+for k=1:20 for i=1:200
+
+if (Y(i,k)==label (i))
+
+accu = accu +1;
+
+end end
+
+j(k)= accu /200;
+accu =0;
+end
+  k=1:20;
+plot(k,j)
+xlabel('Values of K 1-20');
+ylabel('Accuracy');
+title('Accuracy Plot in term of K vary from 1 to 20');
